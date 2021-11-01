@@ -17,6 +17,16 @@ const Header = () => {
       <Nav.Link as={HashLink} className="text-white" to="/home#services">Services</Nav.Link>
       <Nav.Link as={HashLink} className="text-white" to="/home#aboutus">About Us</Nav.Link>
       {user?.email ?
+        <Nav.Link as={HashLink} className="text-white" to="/manageallorders#manage-allorders">Manage AllOrders</Nav.Link>:
+        <>
+        </>
+        }
+      {user?.email ?
+        <Nav.Link as={HashLink} className="text-white" to="/myorders#my-orders">My Orders</Nav.Link>:
+        <>
+        </>
+        }
+      {user?.email ?
         <Nav.Link as={HashLink} className="text-white" to="/addservice#add-service">Add Service</Nav.Link>:
         <>
         </>

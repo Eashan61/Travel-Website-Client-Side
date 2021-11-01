@@ -4,17 +4,58 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import useAuth from '../../../hooks/useAuth';
+import { Button, Form } from 'react-bootstrap';
+import axios from 'axios';
+
 
 const Booking = () => {
+
+  
  const {user} = useAuth();
  const {serviceId} = useParams();
  const [service, setService] = useState({})
+ const [order, setOrder] = useState({})
 
  useEffect( ()=> {
   fetch(`http://localhost:5000/services/${serviceId}`)
   .then(res => res.json())
   .then(data => setService(data));
  }, [])
+
+ const handleNumber = e => {
+  const newNumber = {...order}
+  newNumber.number = e.target.value
+  setOrder(newNumber)
+}
+const handleAddress = e => {
+  const newAddress = {...order}
+  newAddress.address = e.target.value
+  setOrder(newAddress)
+}
+
+ const sendingOrder = (e) => {
+  e.preventDefault();
+
+  const newOrder = order;
+  newOrder.img = service?.img;
+  newOrder.title = service?.name;
+  newOrder.price = service?.price;
+  newOrder.name = user?.displayName;
+  newOrder.email = user?.email;
+  setOrder(newOrder);
+
+  axios.post('http://localhost:5000/order', order)
+  .then(res => {
+   if(res.data.insertedId){
+    alert('added successfully');
+    setOrder({});
+    
+   }
+  })
+  
+ }
+
+ 
 
  // Getting Other Details
  // const [details, setDetails] = useState({});
@@ -28,15 +69,40 @@ const Booking = () => {
    <h2>This is Booking: {serviceId}</h2>
    <img className="responsive" src={service.img} alt="" />
    <h3>{service.name}</h3>
-   <h3>{service.price}</h3>
    <h3>{service.time}</h3>
-   {/* Showing User name and email */}
-   <h3>
-   {user?.displayName}
-   </h3>
-   <h3>
-   {user?.email}
-   </h3>
+   
+   
+   <Form onSubmit={sendingOrder}>
+  <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Label>Name</Form.Label>
+    <Form.Control value={service?.name} type="text" placeholder="Enter Name" />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Label>Price</Form.Label>
+    <Form.Control value={service?.price} type="text" placeholder="Enter Name" />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Label>Name</Form.Label>
+    <Form.Control value={user?.displayName} type="text" placeholder="Enter Name" />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Label>Email address</Form.Label>
+    <Form.Control value={user?.email} type="email" placeholder="Enter email" />
+  </Form.Group>
+  <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Label>Phone Number</Form.Label>
+    <Form.Control onChange={handleNumber} type="number" placeholder="Phone Number" />
+  </Form.Group>
+
+  <Form.Group className="mb-3" controlId="formBasicPassword">
+    <Form.Label>Address</Form.Label>
+    <Form.Control onChange={handleAddress} type="text" placeholder="Address" />
+  </Form.Group>
+  
+  <Button variant="primary" type="submit">
+    Submit
+  </Button>
+</Form>
   </div>
  );
 };

@@ -9,6 +9,8 @@ import Home from './Pages/Home/Home/Home';
 import NotFound from './Pages/Home/NotFound/NotFound';
 import Login from './Pages/Login/Login/Login';
 import PrivateRoute from './Pages/Login/PrivateRoute/PrivateRoute';
+import ManageAllOrders from './Pages/ManageAllOrders/ManageAllOrders';
+import MyOrders from './Pages/MyOrders/MyOrders';
 import Header from './Pages/Shared/Header/Header';
 
 function App() {
@@ -32,6 +34,12 @@ function App() {
           </Route>
           <PrivateRoute path="/booking/:serviceId">
             <Booking></Booking>
+          </PrivateRoute>
+          <PrivateRoute path="/manageallorders">
+            <ManageAllOrders></ManageAllOrders>
+          </PrivateRoute>
+          <PrivateRoute path="/myorders">
+            <MyOrders></MyOrders>
           </PrivateRoute>
           <PrivateRoute path="/addService">
             <AddService></AddService>
