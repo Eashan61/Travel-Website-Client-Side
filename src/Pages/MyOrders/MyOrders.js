@@ -19,8 +19,8 @@ const MyOrders = () => {
 
  console.log(service);
  const cancelOrder = (id) => {
-  fetch(`https://stormy-forest-01258.herokuapp.com/${id}`, {
-   method: 'delete'
+  fetch(`https://stormy-forest-01258.herokuapp.com/order/${id}`, {
+   method: 'DELETE'
   })
   .then(res => res.json()) 
   .then(data => { if (data.deletedCount > 0) { 
