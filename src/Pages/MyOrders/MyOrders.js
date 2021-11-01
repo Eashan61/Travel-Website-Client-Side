@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import useAuth from '../../hooks/useAuth';
 
 
@@ -9,7 +9,7 @@ const MyOrders = () => {
  const [service, setService] = useState([])
 
  useEffect( ()=> {
-  fetch(`http://localhost:5000/order`)
+  fetch(`https://stormy-forest-01258.herokuapp.com/order`)
   .then(res => res.json())
   .then(data => {
    const myOrder = data.filter(x => x.email === user.email);
@@ -19,7 +19,7 @@ const MyOrders = () => {
 
  console.log(service);
  const cancelOrder = (id) => {
-  fetch(`http://localhost:5000/order/${id}`, {
+  fetch(`https://stormy-forest-01258.herokuapp.com/${id}`, {
    method: 'delete'
   })
   .then(res => res.json()) 
@@ -33,6 +33,7 @@ const MyOrders = () => {
  return (
   <div id="my-orders">
    <h3>My Orders:</h3>
+   <Container>
    <Row xs={1} md={2} lg={4} className="g-4">
    {
     service.map(order => <Col>
@@ -50,6 +51,7 @@ const MyOrders = () => {
   </Col>)
    }
    </Row>
+   </Container>
   </div>
  );
 };

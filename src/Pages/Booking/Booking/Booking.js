@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import useAuth from '../../../hooks/useAuth';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 
@@ -17,7 +17,7 @@ const Booking = () => {
  const [order, setOrder] = useState({})
 
  useEffect( ()=> {
-  fetch(`http://localhost:5000/services/${serviceId}`)
+  fetch(`https://stormy-forest-01258.herokuapp.com/services/${serviceId}`)
   .then(res => res.json())
   .then(data => setService(data));
  }, [])
@@ -44,7 +44,7 @@ const handleAddress = e => {
   newOrder.email = user?.email;
   setOrder(newOrder);
 
-  axios.post('http://localhost:5000/order', order)
+  axios.post('https://stormy-forest-01258.herokuapp.com/order', order)
   .then(res => {
    if(res.data.insertedId){
     alert('added successfully');
@@ -57,13 +57,7 @@ const handleAddress = e => {
 
  
 
- // Getting Other Details
- // const [details, setDetails] = useState({});
- // useEffect(()=> {
- //  fetch('/http://localhost:5000/services')
- //  .then(res => res.json())
- //  .then(data => setDetails(data.find(x => parseInt(x.id)=== +serviceId)));
- // })
+ 
  return (
   <div>
    <h2>This is Booking: {serviceId}</h2>
@@ -71,7 +65,7 @@ const handleAddress = e => {
    <h3>{service.name}</h3>
    <h3>{service.time}</h3>
    
-   
+   <Container>
    <Form onSubmit={sendingOrder}>
   <Form.Group className="mb-3" controlId="formBasicEmail">
     <Form.Label>Name</Form.Label>
@@ -103,6 +97,8 @@ const handleAddress = e => {
     Submit
   </Button>
 </Form>
+   </Container>
+   
   </div>
  );
 };
